@@ -104,7 +104,7 @@ CREATE TABLE collections (
   colBranchcode varchar(10) DEFAULT NULL, -- 'branchcode for branch where item should be held.'
   PRIMARY KEY (colId)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-")
+");
 
     # userflags
     $dbh->do("
