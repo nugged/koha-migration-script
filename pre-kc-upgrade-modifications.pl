@@ -43,7 +43,6 @@ sub deleteUnneededData {
 
 sub dropUnusedTables {
 
-    # TODO: Verify tables are dropped
     my @tables_to_drop = (
         "vetuma_transaction_accountlines_link",
         "vetuma_transaction",
@@ -80,7 +79,6 @@ sub dropUnusedTables {
 
 sub dropUnusedColumns {
 
-    # TODO: Verify column is dropped
     $dbh->do("ALTER TABLE message_queue DROP COLUMN delivery_note");
 }
 
