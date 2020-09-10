@@ -182,6 +182,6 @@ modifyColumns();
 
 # These steps are still to be manually completed:
 #
-# run koha-mysql <instance > < /usr/share/koha/intranet/cgi-bin/installer/data/mysql/userflags.sql
+# run koha-mysql <instance> < /usr/share/koha/intranet/cgi-bin/installer/data/mysql/userflags.sql
 # run koha-mysql <instance> < /usr/share/koha/intranet/cgi-bin/installer/data/mysql/userpermissions.sql
 # run koha-upgrade-schema <instance>
