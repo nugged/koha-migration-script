@@ -82,6 +82,11 @@ sub dropUnusedTables {
 sub dropUnusedColumns {
 
     $dbh->do("ALTER TABLE message_queue DROP COLUMN delivery_note");
+
+    $dbh->do("ALTER TABLE holdings DROP FOREIGN KEY holdings_ibfk_2");
+    $dbh->do("ALTER TABLE holdings DROP INDEX hldbinoidx");
+    $dbh->do("ALTER TABLE holdings DROP COLUMN biblioitemnumber");
+    
 }
 
 # Re-creates tables Koha-Suomi fork dropped from KC schema
