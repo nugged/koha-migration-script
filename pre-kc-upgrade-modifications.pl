@@ -185,11 +185,19 @@ sub modifyColumns {
 
 }
 
+sub updadeSysPrefs {
+
+    $dbh->do('UPDATE systempreferences SET value="" WHERE variable="OAI-PMH:ConfFile"');
+    $dbh->do('UPDATE systempreferences SET value=1  WHERE variable="RESTOAuth2ClientCredentials"');
+
+}
+
 deleteUnneededData();
 dropUnusedTables();
 dropUnusedColumns();
 recreateDeletedTables();
 modifyColumns();
+updadeSysPrefs();
 
 say "--- Migration script completed successfully --- ";
 
