@@ -22,6 +22,8 @@ use C4::Context;
 
 my $dbh = C4::Context->dbh;
 
+$dbh->{RaiseError} = 1;
+
 sub deleteUnneededData {
     my @tables_to_truncate = (
         "atomicupdates",
@@ -179,6 +181,8 @@ dropUnusedTables();
 dropUnusedColumns();
 recreateDeletedTables();
 modifyColumns();
+
+say "--- Migration script completed successfully --- ";
 
 # These steps are still to be manually completed:
 #
