@@ -179,6 +179,8 @@ sub modifyColumns {
     $dbh->do("ALTER TABLE issuingrules DROP COLUMN hold_max_pickup_delay");
     $dbh->do("ALTER TABLE issuingrules DROP COLUMN hold_expiration_charge");
 
+    $dbh->do("ALTER TABLE items CHANGE COLUMN datereceived kohasuomi_datereceived TIMESTAMP NULL DEFAULT NULL");
+
 }
 
 deleteUnneededData();
