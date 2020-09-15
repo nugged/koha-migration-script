@@ -181,6 +181,8 @@ sub modifyColumns {
 
     $dbh->do("ALTER TABLE items CHANGE COLUMN datereceived kohasuomi_datereceived TIMESTAMP NULL DEFAULT NULL");
 
+    $dbh->do("ALTER TABLE holdings_metadata CHANGE COLUMN `marcflavour` `schema` VARCHAR(16) NOT NULL");
+
 }
 
 deleteUnneededData();
