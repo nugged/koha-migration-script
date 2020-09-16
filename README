@@ -1,0 +1,6 @@
+To migrate from Koha-Suomi Koha version to community master version
+first run pre-kc-upgrade-modifications.pl and follow the instructions
+on the bottom of the script file in the comments section. After that
+to fix holdings support go to /cgi-bin/koha/admin/biblio_framework.pl
+and delete the HLD framework settings and import the export_HLD.csv
+file in this repository.
