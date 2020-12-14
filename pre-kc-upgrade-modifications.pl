@@ -67,6 +67,7 @@ sub dropUnusedTables {
         "floating_matrix",
         "atomicupdates",
         "collections",
+        "issuingrules",
 
         # "action_logs_cache", # This is needed for statistics, in the future action_logs can be used.
         "api_keys",    # dropping this requires to regenerate api keys when migration is done, community has slightly different implementation of this
@@ -149,6 +150,47 @@ sub recreateDeletedTables {
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
     " );
 
+    $dbh->do( "
+CREATE TABLE `issuingrules` (
+  `categorycode` varchar(10) NOT NULL default '',
+  `itemtype` varchar(10) NOT NULL default '',
+  `restrictedtype` tinyint(1) default NULL,
+  `rentaldiscount` decimal(28,6) default NULL,
+  `reservecharge` decimal(28,6) default NULL,
+  `fine` decimal(28,6) default NULL,
+  `finedays` int(11) default NULL,
+  `maxsuspensiondays` int(11) default NULL,
+  `firstremind` int(11) default NULL,
+  `chargeperiod` int(11) default NULL,
+  `chargeperiod_charge_at` tinyint(1) NOT NULL DEFAULT '0',
+  `accountsent` int(11) default NULL,
+  `chargename` varchar(100) default NULL,
+  `maxissueqty` int(4) default NULL,
+  `maxonsiteissueqty` int(4) default NULL,
+  `issuelength` int(4) default NULL,
+  `lengthunit` varchar(10) default 'days',
+  `hardduedate` date default NULL,
+  `hardduedatecompare` tinyint NOT NULL default '0',
+  `renewalsallowed` smallint(6) NOT NULL default '0',
+  `renewalperiod` int(4) default NULL,
+  `norenewalbefore` int(4) default NULL,
+  `auto_renew` BOOLEAN default FALSE,
+  `no_auto_renewal_after` int(4) default NULL,
+  `no_auto_renewal_after_hard_limit` date default NULL,
+  `reservesallowed` smallint(6) NOT NULL default '0',
+  `holds_per_record` SMALLINT(6) NOT NULL DEFAULT 1,
+  `branchcode` varchar(10) NOT NULL default '',
+  overduefinescap decimal(28,6) default NULL,
+  cap_fine_to_replacement_price BOOLEAN NOT NULL DEFAULT  '0',
+  onshelfholds tinyint(1) NOT NULL default 0,
+  opacitemholds char(1) NOT NULL default 'N',
+  article_requests enum('no','yes','bib_only','item_only') NOT NULL DEFAULT 'no',
+  PRIMARY KEY  (`branchcode`,`categorycode`,`itemtype`),
+  KEY `categorycode` (`categorycode`),
+  KEY `itemtype` (`itemtype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    " );
+
 }
 
 sub modifyColumns {
@@ -169,15 +211,6 @@ sub modifyColumns {
     $dbh->do("ALTER TABLE old_reserves DROP COLUMN pickupexpired");
 
     $dbh->do("ALTER TABLE overduerules DROP COLUMN fine1, DROP COLUMN fine2, DROP COLUMN fine3");
-
-    $dbh->do("ALTER TABLE issuingrules DROP INDEX issuingrules_selects");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN issuingrules_id");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN ccode");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN permanent_location");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN sub_location");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN circulation_level");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN hold_max_pickup_delay");
-    $dbh->do("ALTER TABLE issuingrules DROP COLUMN hold_expiration_charge");
 
     $dbh->do("ALTER TABLE items CHANGE COLUMN datereceived kohasuomi_datereceived TIMESTAMP NULL DEFAULT NULL");
 
